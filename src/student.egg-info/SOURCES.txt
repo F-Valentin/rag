@@ -1,0 +1,10 @@
+pyproject.toml
+src/student/__main__.py
+src/student/chunking.py
+src/student/cli.py
+src/student/models.py
+src/student.egg-info/PKG-INFO
+src/student.egg-info/SOURCES.txt
+src/student.egg-info/dependency_links.txt
+src/student.egg-info/requires.txt
+src/student.egg-info/top_level.txt

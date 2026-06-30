@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import uuid
-from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -11,6 +10,17 @@ from pydantic import BaseModel, Field
 class MinimalSource(BaseModel):
     """A minimal source of information with file path and character indices."""
     file_path: str
+    first_character_index: int
+    last_character_index: int
+
+
+class IndexedChunk(BaseModel):
+    """A chunk of text indexed for BM25 retrieval.
+    
+    Internal use only — contains the text for indexing/searching.
+    """
+    file_path: str
+    text: str
     first_character_index: int
     last_character_index: int
 
@@ -23,20 +33,20 @@ class UnansweredQuestion(BaseModel):
 
 class AnsweredQuestion(UnansweredQuestion):
     """A question with ground-truth sources and answer."""
-    sources: List[MinimalSource]
+    sources: list[MinimalSource]
     answer: str
 
 
 class RagDataset(BaseModel):
     """A dataset of RAG questions."""
-    rag_questions: List[AnsweredQuestion | UnansweredQuestion]
+    rag_questions: list[AnsweredQuestion | UnansweredQuestion]
 
 
 class MinimalSearchResults(BaseModel):
     """Search results for a single question."""
     question_id: str
     question_str: str
-    retrieved_sources: List[MinimalSource]
+    retrieved_sources: list[MinimalSource]
 
 
 class MinimalAnswer(MinimalSearchResults):
@@ -46,10 +56,11 @@ class MinimalAnswer(MinimalSearchResults):
 
 class StudentSearchResults(BaseModel):
     """Collection of search results for a dataset."""
-    search_results: List[MinimalSearchResults]
+    search_results: list[MinimalSearchResults]
     k: int
 
 
-class StudentSearchResultsAndAnswer(StudentSearchResults):
+class StudentSearchResultsAndAnswer(BaseModel):
     """Collection of search results with generated answers."""
-    search_results: List[MinimalAnswer]
+    search_results: list[MinimalAnswer]
+    k: int

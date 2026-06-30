@@ -8,6 +8,7 @@ dependencies = [
     "fire",
     "pydantic",
     "numpy",
+    "tqdm",
 ]
 
 [project.optional-dependencies]

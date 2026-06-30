@@ -1,0 +1,10 @@
+bm25s
+fire
+pydantic
+numpy
+tqdm
+
+[dev]
+flake8
+mypy
+pytest

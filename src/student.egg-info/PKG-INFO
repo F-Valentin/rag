@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: student
+Version: 0.1.0
+Summary: RAG against the machine
+Requires-Python: >=3.10
+Requires-Dist: bm25s
+Requires-Dist: fire
+Requires-Dist: pydantic
+Requires-Dist: numpy
+Requires-Dist: tqdm
+Provides-Extra: dev
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
