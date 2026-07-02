@@ -8,6 +8,8 @@ Requires-Dist: fire
 Requires-Dist: pydantic
 Requires-Dist: numpy
 Requires-Dist: tqdm
+Requires-Dist: transformers
+Requires-Dist: torch>=2.12.1
 Provides-Extra: dev
 Requires-Dist: flake8; extra == "dev"
 Requires-Dist: mypy; extra == "dev"

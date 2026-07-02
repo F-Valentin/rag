@@ -72,7 +72,7 @@ def test_indexing():
     print("=" * 50)
     
     # Create a temporary test directory
-    test_dir = "/tmp/test_repo"
+    test_dir = "./data/output/"
     os.makedirs(test_dir, exist_ok=True)
     
     # Create a test markdown file
@@ -84,11 +84,10 @@ def test_indexing():
         f.write('def hello():\n    print("Hello")\n\ndef world():\n    return 42\n')
     
     # Build index
-    output_dir = "/tmp/test_index"
+    output_dir = "./data/output"
     build_index(test_dir, output_dir, max_chunk_size=50)
     
     # Check files were created
-    assert os.path.exists(os.path.join(output_dir, "bm25_index.pkl"))
     assert os.path.exists(os.path.join(output_dir, "chunks.json"))
     print(f"\n✅ Index created in {output_dir}")
     
@@ -101,10 +100,10 @@ def test_indexing():
     
     print("\n✅ Indexing OK\n")
     
-    # Cleanup
-    import shutil
-    shutil.rmtree(test_dir)
-    shutil.rmtree(output_dir)
+    # # Cleanup
+    # import shutil
+    # shutil.rmtree(test_dir)
+    # shutil.rmtree(output_dir)
 
 
 def test_retrieval():

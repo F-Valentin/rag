@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import pickle
 import bm25s
 import os
 from pathlib import Path
@@ -112,16 +111,14 @@ def build_index(repo_path: str, output_dir: str, max_chunk_size: int = 2000) -> 
     retriever.index(bm25s.tokenize(corpus))
     
     # 4. Save everything
-    index_path = os.path.join(output_dir, "bm25_index.pkl")
     chunks_path = os.path.join(output_dir, "chunks.json")
     
-    with open(index_path, "wb") as f:
-        pickle.dump(retriever, f)
+    retriever.save(output_dir)
     
     # Save chunks as list of dicts (Pydantic handles validation)
     chunks_data = [chunk.model_dump() for chunk in chunks]
     with open(chunks_path, "w", encoding="utf-8") as f:
         json.dump(chunks_data, f, indent=2)
     
-    print(f"Index saved to {index_path}")
+    print(f"Index saved to {output_dir}")
     print(f"Chunks saved to {chunks_path}")

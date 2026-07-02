@@ -60,7 +60,6 @@ class StudentSearchResults(BaseModel):
     k: int
 
 
-class StudentSearchResultsAndAnswer(BaseModel):
+class StudentSearchResultsAndAnswer(StudentSearchResults):
     """Collection of search results with generated answers."""
     search_results: list[MinimalAnswer]
-    k: int

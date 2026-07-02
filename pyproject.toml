@@ -9,6 +9,8 @@ dependencies = [
     "pydantic",
     "numpy",
     "tqdm",
+    "transformers",
+    "torch>=2.12.1",
 ]
 
 [project.optional-dependencies]
