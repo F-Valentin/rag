@@ -11,6 +11,15 @@ from tqdm import tqdm
 
 from src.models import IndexedChunk, MinimalSource
 
+import re
+
+def preprocess_for_bm25(text: str) -> str:
+    """Split camelCase and snake_case for better BM25 token overlap."""
+    # camelCase → camel Case
+    text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)
+    # snake_case → snake case
+    text = text.replace('_', ' ')
+    return text
 
 def load_index(index_dir: str) -> tuple[bm25s.BM25, List[IndexedChunk]]:
     """Load BM25 index and chunks from disk."""
@@ -28,7 +37,8 @@ def load_index(index_dir: str) -> tuple[bm25s.BM25, List[IndexedChunk]]:
 
 def _retrieve_indices(query: str, retriever: bm25s.BM25, k: int) -> List[int]:
     """Run BM25 retrieval and return the top-k chunk indices for a query."""
-    query_tokens = bm25s.tokenize(query)
+    # query_tokens = bm25s.tokenize(query)
+    query_tokens = bm25s.tokenize(preprocess_for_bm25(query), stopwords="en")
 
     # bm25s types are not precise; use Any to avoid Pyright conflicts
     # retrieve() returns (documents, scores), each shaped (n_queries, k).

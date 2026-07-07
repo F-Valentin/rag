@@ -9,6 +9,7 @@ from pathlib import Path
 
 from tqdm import tqdm
 
+from src.retrieval import preprocess_for_bm25
 from src.chunking import chunk_markdown, chunk_python
 from src.models import IndexedChunk, MinimalSource
 
@@ -103,12 +104,18 @@ def build_index(repo_path: str, output_dir: str, max_chunk_size: int = 2000) -> 
     
     # 3. Build BM25 index
     print("Building BM25 index...")
-    corpus = [chunk.text for chunk in chunks]
+    # corpus = [chunk.text for chunk in chunks]
     # Note: deliberately NOT passing corpus= here. If a corpus is attached,
     # bm25s.retrieve() returns the matched documents/text instead of integer
     # doc indices, which breaks retrieval.search()'s index-based lookup.
     retriever = bm25s.BM25()
-    retriever.index(bm25s.tokenize(corpus))
+    # corpus = [preprocess_for_bm25(chunk.text) for chunk in chunks]
+    corpus = [
+    f"{chunk.file_path}\n{preprocess_for_bm25(chunk.text)}"
+    for chunk in chunks
+]
+    retriever.index(bm25s.tokenize(corpus, stopwords="en"))
+    # retriever.index(bm25s.tokenize(corpus))
     
     # 4. Save everything
     chunks_path = os.path.join(output_dir, "chunks.json")
